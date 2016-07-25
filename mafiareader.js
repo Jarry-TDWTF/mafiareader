@@ -39,6 +39,15 @@ program.command('crawl <name>')
     })
   });
 
+
+program.command('pullDocs')
+  .description('save the db design docs in disk')
+  .action(model.pullDocs);
+
+program.command('pushDocs')
+  .description('read the db design docs from disk')
+  .action(model.pushDocs);
+
 program.version('0.0.1').parse(process.argv);
 
 function list(val) {

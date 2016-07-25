@@ -1,0 +1,12 @@
+[
+  {
+    "_id": "_design/games",
+    "_rev": "2-31f9cbcbd0704fd5d4024260e8b6c78e",
+    "language": "javascript",
+    "views": {
+      "games": {
+        "map": "function(doc) {\n  if(doc.type == 'GAME')\n\temit(doc._id, {name:doc._id, topics:doc.topics});\n}"
+      }
+    }
+  }
+]
