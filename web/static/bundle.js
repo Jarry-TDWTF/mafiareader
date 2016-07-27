@@ -58,7 +58,7 @@
 
 	var _App2 = _interopRequireDefault(_App);
 
-	var _storeCreator = __webpack_require__(201);
+	var _storeCreator = __webpack_require__(206);
 
 	var _storeCreator2 = _interopRequireDefault(_storeCreator);
 
@@ -22867,28 +22867,798 @@
 	  value: true
 	});
 
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRedux = __webpack_require__(172);
+
+	var _actions = __webpack_require__(201);
+
+	var actions = _interopRequireWildcard(_actions);
+
+	var _GameSelector = __webpack_require__(205);
+
+	var _GameSelector2 = _interopRequireDefault(_GameSelector);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var mapStateToProps = function mapStateToProps(state) {
+	  return state;
+	};
+
+	var App = function (_React$Component) {
+	  _inherits(App, _React$Component);
+
+	  function App() {
+	    _classCallCheck(this, App);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(App).apply(this, arguments));
+	  }
+
+	  _createClass(App, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      var fetchGames = this.props.fetchGames;
+
+	      fetchGames();
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var games = this.props.games;
+
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(_GameSelector2.default, { keyText: 'name', keyValue: 'id', options: games.data, onOptionSelected: '' })
+	      );
+	    }
+	  }]);
+
+	  return App;
+	}(_react2.default.Component);
+
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, actions)(App);
+
+/***/ },
+/* 201 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.fetchGames = exports.RECEIVE_GAMES = exports.REQUEST_GAMES = undefined;
+
+	var _utils = __webpack_require__(202);
+
+	var REQUEST_GAMES = exports.REQUEST_GAMES = 'REQUEST_GAMES';
+	var RECEIVE_GAMES = exports.RECEIVE_GAMES = 'RECEIVE_GAMES';
+
+	var actions = {
+	  request: REQUEST_GAMES,
+	  receive: RECEIVE_GAMES,
+	  updateRequest: function updateRequest() {},
+	  updateReceive: function updateReceive() {},
+	  createRequest: function createRequest() {},
+	  createReceive: function createReceive() {},
+	  error: function error() {}
+	};
+
+	var callbacks = {
+	  shouldFetch: function shouldFetch(state) {
+	    return !state.games.data || !state.games.data.length;
+	  }
+	};
+
+	var games = (0, _utils.asyncFetch)(actions, 'customers', callbacks);
+
+	var fetchGames = exports.fetchGames = games.fetch;
+
+/***/ },
+/* 202 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+	exports.asyncFetch = asyncFetch;
+
+	var _isomorphicFetch = __webpack_require__(203);
+
+	var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function isBrowser() {
+	  return (typeof __IS_BROWSER__ === 'undefined' ? 'undefined' : _typeof(__IS_BROWSER__)) !== ( true ? 'undefined' : _typeof(undefined));
+	}
+
+	function getBrowserUrl(url) {
+	  return location.protocol + '//' + location.host + '/' + url;
+	}
+
+	function apiFetch(url, options) {
+	  var finalUrl = isBrowser() ? getBrowserUrl(url) : 'http://localhost:3000/' + url; //TODO: add url
+	  return (0, _isomorphicFetch2.default)(finalUrl, options);
+	}
+
+	var defaultCallbacks = {
+	  shouldFetch: function shouldFetch() {
+	    return true;
+	  },
+	  decorateResponse: function decorateResponse(response) {
+	    return response;
+	  }
+	};
+
+	function getRequestOptions(method, params) {
+	  var options = { method: method };
+
+	  if (method === 'POST' || method === 'PUT') {
+	    if (params.file) {
+	      options.body = new FormData();
+
+	      Object.keys(params).forEach(function (key) {
+	        if (key !== 'file') {
+	          options.body.append(key, params[key]);
+	        } else {
+	          options.body.append(params[key].name, params[key].file);
+	        }
+	      });
+	    } else {
+	      options.headers = new Headers({
+	        'Content-Type': 'application/json',
+	        Accept: 'application/json'
+	      });
+	      options.body = JSON.stringify(params);
+	    }
+	  }
+
+	  return options;
+	}
+
+	function getUrl(path, params, resurceId) {
+	  var url = typeof path === 'string' ? path : path(params);
+	  url += resurceId ? '/' + resurceId : '';
+	  return url;
+	}
+
+	function doFetch(url, params, options, request, response, error, decorator) {
+	  return function (dispatch) {
+	    dispatch(request());
+	    return apiFetch(url, options).then(function (data) {
+	      return data.json();
+	    }).then(function (json) {
+	      return dispatch(response(decorator ? decorator(json, params) : json));
+	    }).catch(function (err) {
+	      return dispatch(error(err));
+	    });
+	  };
+	}
+
+	function asyncFetch(actions, path, callbacks) {
+	  var request = function request() {
+	    return { type: actions.request };
+	  };
+	  var receive = function receive(data) {
+	    return { type: actions.receive, data: data };
+	  };
+	  var error = function error(err) {
+	    return { type: actions.error, error: err };
+	  };
+	  var updateRequest = function updateRequest() {
+	    return { type: actions.updateRequest };
+	  };
+	  var updateReceive = function updateReceive(data) {
+	    return { type: actions.updateReceive, data: data };
+	  };
+	  var createRequest = function createRequest() {
+	    return { type: actions.createRequest };
+	  };
+	  var createReceive = function createReceive(data) {
+	    return { type: actions.createReceive, data: data };
+	  };
+
+	  var cb = _extends({}, defaultCallbacks, callbacks);
+	  return {
+	    fetch: function fetch() {
+	      var params = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	      var force = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
+	      return function (dispatch, getState) {
+	        var url = getUrl(path, params);
+	        var options = getRequestOptions('GET', params);
+	        if (force || cb.shouldFetch(getState(), params)) {
+	          return dispatch(doFetch(url, params, options, request, receive, error, cb.decorateResponse));
+	        }
+	        return Promise.resolve();
+	      };
+	    },
+	    update: function update(resourceId) {
+	      var params = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+	      return function (dispatch) {
+	        var url = getUrl(path, params, resourceId);
+	        var options = getRequestOptions('PUT', params);
+	        return dispatch(doFetch(url, params, options, updateRequest, updateReceive, error));
+	      };
+	    },
+	    create: function create() {
+	      var params = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	      return function (dispatch) {
+	        var url = getUrl(path, params);
+	        var options = getRequestOptions('POST', params);
+	        return dispatch(doFetch(url, params, options, createRequest, createReceive, error));
+	      };
+	    }
+	  };
+	}
+
+/***/ },
+/* 203 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// the whatwg-fetch polyfill installs the fetch() function
+	// on the global object (window or self)
+	//
+	// Return that as the export for use in Webpack, Browserify etc.
+	__webpack_require__(204);
+	module.exports = self.fetch.bind(self);
+
+
+/***/ },
+/* 204 */
+/***/ function(module, exports) {
+
+	(function(self) {
+	  'use strict';
+
+	  if (self.fetch) {
+	    return
+	  }
+
+	  var support = {
+	    searchParams: 'URLSearchParams' in self,
+	    iterable: 'Symbol' in self && 'iterator' in Symbol,
+	    blob: 'FileReader' in self && 'Blob' in self && (function() {
+	      try {
+	        new Blob()
+	        return true
+	      } catch(e) {
+	        return false
+	      }
+	    })(),
+	    formData: 'FormData' in self,
+	    arrayBuffer: 'ArrayBuffer' in self
+	  }
+
+	  function normalizeName(name) {
+	    if (typeof name !== 'string') {
+	      name = String(name)
+	    }
+	    if (/[^a-z0-9\-#$%&'*+.\^_`|~]/i.test(name)) {
+	      throw new TypeError('Invalid character in header field name')
+	    }
+	    return name.toLowerCase()
+	  }
+
+	  function normalizeValue(value) {
+	    if (typeof value !== 'string') {
+	      value = String(value)
+	    }
+	    return value
+	  }
+
+	  // Build a destructive iterator for the value list
+	  function iteratorFor(items) {
+	    var iterator = {
+	      next: function() {
+	        var value = items.shift()
+	        return {done: value === undefined, value: value}
+	      }
+	    }
+
+	    if (support.iterable) {
+	      iterator[Symbol.iterator] = function() {
+	        return iterator
+	      }
+	    }
+
+	    return iterator
+	  }
+
+	  function Headers(headers) {
+	    this.map = {}
+
+	    if (headers instanceof Headers) {
+	      headers.forEach(function(value, name) {
+	        this.append(name, value)
+	      }, this)
+
+	    } else if (headers) {
+	      Object.getOwnPropertyNames(headers).forEach(function(name) {
+	        this.append(name, headers[name])
+	      }, this)
+	    }
+	  }
+
+	  Headers.prototype.append = function(name, value) {
+	    name = normalizeName(name)
+	    value = normalizeValue(value)
+	    var list = this.map[name]
+	    if (!list) {
+	      list = []
+	      this.map[name] = list
+	    }
+	    list.push(value)
+	  }
+
+	  Headers.prototype['delete'] = function(name) {
+	    delete this.map[normalizeName(name)]
+	  }
+
+	  Headers.prototype.get = function(name) {
+	    var values = this.map[normalizeName(name)]
+	    return values ? values[0] : null
+	  }
+
+	  Headers.prototype.getAll = function(name) {
+	    return this.map[normalizeName(name)] || []
+	  }
+
+	  Headers.prototype.has = function(name) {
+	    return this.map.hasOwnProperty(normalizeName(name))
+	  }
+
+	  Headers.prototype.set = function(name, value) {
+	    this.map[normalizeName(name)] = [normalizeValue(value)]
+	  }
+
+	  Headers.prototype.forEach = function(callback, thisArg) {
+	    Object.getOwnPropertyNames(this.map).forEach(function(name) {
+	      this.map[name].forEach(function(value) {
+	        callback.call(thisArg, value, name, this)
+	      }, this)
+	    }, this)
+	  }
+
+	  Headers.prototype.keys = function() {
+	    var items = []
+	    this.forEach(function(value, name) { items.push(name) })
+	    return iteratorFor(items)
+	  }
+
+	  Headers.prototype.values = function() {
+	    var items = []
+	    this.forEach(function(value) { items.push(value) })
+	    return iteratorFor(items)
+	  }
+
+	  Headers.prototype.entries = function() {
+	    var items = []
+	    this.forEach(function(value, name) { items.push([name, value]) })
+	    return iteratorFor(items)
+	  }
+
+	  if (support.iterable) {
+	    Headers.prototype[Symbol.iterator] = Headers.prototype.entries
+	  }
+
+	  function consumed(body) {
+	    if (body.bodyUsed) {
+	      return Promise.reject(new TypeError('Already read'))
+	    }
+	    body.bodyUsed = true
+	  }
+
+	  function fileReaderReady(reader) {
+	    return new Promise(function(resolve, reject) {
+	      reader.onload = function() {
+	        resolve(reader.result)
+	      }
+	      reader.onerror = function() {
+	        reject(reader.error)
+	      }
+	    })
+	  }
+
+	  function readBlobAsArrayBuffer(blob) {
+	    var reader = new FileReader()
+	    reader.readAsArrayBuffer(blob)
+	    return fileReaderReady(reader)
+	  }
+
+	  function readBlobAsText(blob) {
+	    var reader = new FileReader()
+	    reader.readAsText(blob)
+	    return fileReaderReady(reader)
+	  }
+
+	  function Body() {
+	    this.bodyUsed = false
+
+	    this._initBody = function(body) {
+	      this._bodyInit = body
+	      if (typeof body === 'string') {
+	        this._bodyText = body
+	      } else if (support.blob && Blob.prototype.isPrototypeOf(body)) {
+	        this._bodyBlob = body
+	      } else if (support.formData && FormData.prototype.isPrototypeOf(body)) {
+	        this._bodyFormData = body
+	      } else if (support.searchParams && URLSearchParams.prototype.isPrototypeOf(body)) {
+	        this._bodyText = body.toString()
+	      } else if (!body) {
+	        this._bodyText = ''
+	      } else if (support.arrayBuffer && ArrayBuffer.prototype.isPrototypeOf(body)) {
+	        // Only support ArrayBuffers for POST method.
+	        // Receiving ArrayBuffers happens via Blobs, instead.
+	      } else {
+	        throw new Error('unsupported BodyInit type')
+	      }
+
+	      if (!this.headers.get('content-type')) {
+	        if (typeof body === 'string') {
+	          this.headers.set('content-type', 'text/plain;charset=UTF-8')
+	        } else if (this._bodyBlob && this._bodyBlob.type) {
+	          this.headers.set('content-type', this._bodyBlob.type)
+	        } else if (support.searchParams && URLSearchParams.prototype.isPrototypeOf(body)) {
+	          this.headers.set('content-type', 'application/x-www-form-urlencoded;charset=UTF-8')
+	        }
+	      }
+	    }
+
+	    if (support.blob) {
+	      this.blob = function() {
+	        var rejected = consumed(this)
+	        if (rejected) {
+	          return rejected
+	        }
+
+	        if (this._bodyBlob) {
+	          return Promise.resolve(this._bodyBlob)
+	        } else if (this._bodyFormData) {
+	          throw new Error('could not read FormData body as blob')
+	        } else {
+	          return Promise.resolve(new Blob([this._bodyText]))
+	        }
+	      }
+
+	      this.arrayBuffer = function() {
+	        return this.blob().then(readBlobAsArrayBuffer)
+	      }
+
+	      this.text = function() {
+	        var rejected = consumed(this)
+	        if (rejected) {
+	          return rejected
+	        }
+
+	        if (this._bodyBlob) {
+	          return readBlobAsText(this._bodyBlob)
+	        } else if (this._bodyFormData) {
+	          throw new Error('could not read FormData body as text')
+	        } else {
+	          return Promise.resolve(this._bodyText)
+	        }
+	      }
+	    } else {
+	      this.text = function() {
+	        var rejected = consumed(this)
+	        return rejected ? rejected : Promise.resolve(this._bodyText)
+	      }
+	    }
+
+	    if (support.formData) {
+	      this.formData = function() {
+	        return this.text().then(decode)
+	      }
+	    }
+
+	    this.json = function() {
+	      return this.text().then(JSON.parse)
+	    }
+
+	    return this
+	  }
+
+	  // HTTP methods whose capitalization should be normalized
+	  var methods = ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'POST', 'PUT']
+
+	  function normalizeMethod(method) {
+	    var upcased = method.toUpperCase()
+	    return (methods.indexOf(upcased) > -1) ? upcased : method
+	  }
+
+	  function Request(input, options) {
+	    options = options || {}
+	    var body = options.body
+	    if (Request.prototype.isPrototypeOf(input)) {
+	      if (input.bodyUsed) {
+	        throw new TypeError('Already read')
+	      }
+	      this.url = input.url
+	      this.credentials = input.credentials
+	      if (!options.headers) {
+	        this.headers = new Headers(input.headers)
+	      }
+	      this.method = input.method
+	      this.mode = input.mode
+	      if (!body) {
+	        body = input._bodyInit
+	        input.bodyUsed = true
+	      }
+	    } else {
+	      this.url = input
+	    }
+
+	    this.credentials = options.credentials || this.credentials || 'omit'
+	    if (options.headers || !this.headers) {
+	      this.headers = new Headers(options.headers)
+	    }
+	    this.method = normalizeMethod(options.method || this.method || 'GET')
+	    this.mode = options.mode || this.mode || null
+	    this.referrer = null
+
+	    if ((this.method === 'GET' || this.method === 'HEAD') && body) {
+	      throw new TypeError('Body not allowed for GET or HEAD requests')
+	    }
+	    this._initBody(body)
+	  }
+
+	  Request.prototype.clone = function() {
+	    return new Request(this)
+	  }
+
+	  function decode(body) {
+	    var form = new FormData()
+	    body.trim().split('&').forEach(function(bytes) {
+	      if (bytes) {
+	        var split = bytes.split('=')
+	        var name = split.shift().replace(/\+/g, ' ')
+	        var value = split.join('=').replace(/\+/g, ' ')
+	        form.append(decodeURIComponent(name), decodeURIComponent(value))
+	      }
+	    })
+	    return form
+	  }
+
+	  function headers(xhr) {
+	    var head = new Headers()
+	    var pairs = (xhr.getAllResponseHeaders() || '').trim().split('\n')
+	    pairs.forEach(function(header) {
+	      var split = header.trim().split(':')
+	      var key = split.shift().trim()
+	      var value = split.join(':').trim()
+	      head.append(key, value)
+	    })
+	    return head
+	  }
+
+	  Body.call(Request.prototype)
+
+	  function Response(bodyInit, options) {
+	    if (!options) {
+	      options = {}
+	    }
+
+	    this.type = 'default'
+	    this.status = options.status
+	    this.ok = this.status >= 200 && this.status < 300
+	    this.statusText = options.statusText
+	    this.headers = options.headers instanceof Headers ? options.headers : new Headers(options.headers)
+	    this.url = options.url || ''
+	    this._initBody(bodyInit)
+	  }
+
+	  Body.call(Response.prototype)
+
+	  Response.prototype.clone = function() {
+	    return new Response(this._bodyInit, {
+	      status: this.status,
+	      statusText: this.statusText,
+	      headers: new Headers(this.headers),
+	      url: this.url
+	    })
+	  }
+
+	  Response.error = function() {
+	    var response = new Response(null, {status: 0, statusText: ''})
+	    response.type = 'error'
+	    return response
+	  }
+
+	  var redirectStatuses = [301, 302, 303, 307, 308]
+
+	  Response.redirect = function(url, status) {
+	    if (redirectStatuses.indexOf(status) === -1) {
+	      throw new RangeError('Invalid status code')
+	    }
+
+	    return new Response(null, {status: status, headers: {location: url}})
+	  }
+
+	  self.Headers = Headers
+	  self.Request = Request
+	  self.Response = Response
+
+	  self.fetch = function(input, init) {
+	    return new Promise(function(resolve, reject) {
+	      var request
+	      if (Request.prototype.isPrototypeOf(input) && !init) {
+	        request = input
+	      } else {
+	        request = new Request(input, init)
+	      }
+
+	      var xhr = new XMLHttpRequest()
+
+	      function responseURL() {
+	        if ('responseURL' in xhr) {
+	          return xhr.responseURL
+	        }
+
+	        // Avoid security warnings on getResponseHeader when not allowed by CORS
+	        if (/^X-Request-URL:/m.test(xhr.getAllResponseHeaders())) {
+	          return xhr.getResponseHeader('X-Request-URL')
+	        }
+
+	        return
+	      }
+
+	      xhr.onload = function() {
+	        var options = {
+	          status: xhr.status,
+	          statusText: xhr.statusText,
+	          headers: headers(xhr),
+	          url: responseURL()
+	        }
+	        var body = 'response' in xhr ? xhr.response : xhr.responseText
+	        resolve(new Response(body, options))
+	      }
+
+	      xhr.onerror = function() {
+	        reject(new TypeError('Network request failed'))
+	      }
+
+	      xhr.ontimeout = function() {
+	        reject(new TypeError('Network request failed'))
+	      }
+
+	      xhr.open(request.method, request.url, true)
+
+	      if (request.credentials === 'include') {
+	        xhr.withCredentials = true
+	      }
+
+	      if ('responseType' in xhr && support.blob) {
+	        xhr.responseType = 'blob'
+	      }
+
+	      request.headers.forEach(function(value, name) {
+	        xhr.setRequestHeader(name, value)
+	      })
+
+	      xhr.send(typeof request._bodyInit === 'undefined' ? null : request._bodyInit)
+	    })
+	  }
+	  self.fetch.polyfill = true
+	})(typeof self !== 'undefined' ? self : this);
+
+
+/***/ },
+/* 205 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var App = function App() {
-	  return _react2.default.createElement(
-	    'div',
-	    null,
-	    _react2.default.createElement(
-	      'h1',
-	      null,
-	      'Hello world!'
-	    )
-	  );
-	};
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	exports.default = App;
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var GameSelector = function (_React$Component) {
+	  _inherits(GameSelector, _React$Component);
+
+	  function GameSelector() {
+	    _classCallCheck(this, GameSelector);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(GameSelector).apply(this, arguments));
+	  }
+
+	  _createClass(GameSelector, [{
+	    key: 'getOptionKeyValue',
+	    value: function getOptionKeyValue() {
+	      return this.props.keyValue || 'value';
+	    }
+	  }, {
+	    key: 'getOptionKeyText',
+	    value: function getOptionKeyText() {
+	      return this.props.keyText || 'text';
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
+
+	      var _props = this.props;
+	      var label = _props.label;
+	      var options = _props.options;
+	      var nullOptionText = _props.nullOptionText;
+	      var selectedValue = _props.selectedValue;
+	      var onOptionSelected = _props.onOptionSelected;
+	      var disabled = _props.disabled;
+
+	      console.log(this.props);
+	      var maybeNullOption = nullOptionText ? _react2.default.createElement(
+	        'option',
+	        null,
+	        nullOptionText
+	      ) : '';
+	      return _react2.default.createElement(
+	        'select',
+	        {
+	          onChange: function onChange(e) {
+	            var selectedOption = options.find(function (option) {
+	              return option[_this2.getOptionKeyValue()].toString() === e.target.value;
+	            });
+	            onOptionSelected(selectedOption);
+	          },
+	          value: selectedValue,
+	          disabled: disabled
+	        },
+	        maybeNullOption,
+	        (options || []).map(function (option) {
+	          return _react2.default.createElement(
+	            'option',
+	            {
+	              key: option[_this2.getOptionKeyValue()],
+	              value: option[_this2.getOptionKeyValue()]
+	            },
+	            option[_this2.getOptionKeyText()]
+	          );
+	        })
+	      );
+	    }
+	  }]);
+
+	  return GameSelector;
+	}(_react2.default.Component);
+
+	exports.default = GameSelector;
 
 /***/ },
-/* 201 */
+/* 206 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22900,11 +23670,11 @@
 
 	var _redux = __webpack_require__(179);
 
-	var _reduxThunk = __webpack_require__(202);
+	var _reduxThunk = __webpack_require__(207);
 
 	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
-	var _reducers = __webpack_require__(203);
+	var _reducers = __webpack_require__(208);
 
 	var reducers = _interopRequireWildcard(_reducers);
 
@@ -22920,7 +23690,7 @@
 	}
 
 /***/ },
-/* 202 */
+/* 207 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -22948,24 +23718,41 @@
 	exports['default'] = thunk;
 
 /***/ },
-/* 203 */
-/***/ function(module, exports) {
+/* 208 */
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.posts = posts;
-	function posts() {
-	  var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	exports.games = games;
+
+	var _actions = __webpack_require__(201);
+
+	var gamesInitialState = {
+	  data: undefined,
+	  fetching: false,
+	  ready: false,
+	  error: undefined
+	};
+
+	function games() {
+	  var state = arguments.length <= 0 || arguments[0] === undefined ? gamesInitialState : arguments[0];
 	  var action = arguments[1];
 
 	  switch (action.type) {
-	    case 'INCREMENT':
-	      return state + 1;
-	    case 'DECREMENT':
-	      return state - 1;
+	    case _actions.REQUEST_GAMES:
+	      return _extends({}, state, { fetching: true, ready: false });
+	    case _actions.RECEIVE_GAMES:
+	      return _extends({}, state, {
+	        fetching: false,
+	        ready: true,
+	        data: action.data
+	      });
 	    default:
 	      return state;
 	  }

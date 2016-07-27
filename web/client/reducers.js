@@ -1,9 +1,25 @@
-export function posts(state = {}, action) {
+import {
+  RECEIVE_GAMES,
+  REQUEST_GAMES
+} from './actions';
+
+const gamesInitialState = {
+  data: undefined,
+  fetching: false,
+  ready: false,
+  error: undefined
+};
+
+export function games(state = gamesInitialState, action) {
   switch (action.type) {
-    case 'INCREMENT':
-      return state + 1;
-    case 'DECREMENT':
-      return state - 1;
+    case REQUEST_GAMES:
+      return { ...state, fetching: true, ready: false };
+    case RECEIVE_GAMES:
+      return { ...state,
+        fetching: false,
+        ready: true,
+        data: action.data
+      };
     default:
       return state
   }
