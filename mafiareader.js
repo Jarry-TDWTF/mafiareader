@@ -19,7 +19,7 @@ program
     model.saveGame(title, threads).then(function (res) {
       console.log("game saved with id: %s", res.id);
     });
-  })
+  });
 
 
 
