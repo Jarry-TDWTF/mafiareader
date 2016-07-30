@@ -14,7 +14,7 @@ exports.saveGame = function (title, topics) {
     topics
   };
 
-  return promesifyInsert('game-' + title, game);
+  return promesifyInsert(title, game);
 };
 
 exports.getGames = function (keys) {
