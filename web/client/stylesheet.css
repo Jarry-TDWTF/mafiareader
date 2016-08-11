@@ -1,0 +1,15 @@
+.emoji {
+    width: 20px;
+    height: 20px;
+}
+
+.postlist {
+    width: 100%;
+    background-color: #4F4D3F;
+    margin: 10px;
+}
+
+.post {
+    border: solid 1px #0066bb;
+    margin: 5px 0px;
+}

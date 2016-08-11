@@ -29,15 +29,7 @@ var config = {
           presets: ['es2015', 'stage-2', 'react']
         }
       },
-      {
-        test: /\.scss$/,
-        loaders: [
-          'style',
-          'css?modules&importLoaders=1&localIdentName=[path]___[name]__[local]___[hash:base64:5]',
-          'sass'
-        ]
-      },
-      { test: /\.css$/, loader: 'style!css' },
+      { test: /\.css$/, loader: "style-loader!css-loader" },
       { test: /\.(png|svg)$/, loader: 'url-loader?limit=100000' },
       { test: /\.jpg$/, loader: 'file-loader' }
     ]

@@ -3,6 +3,7 @@ import { render  } from 'react-dom'
 import { Provider } from 'react-redux'
 import App from './containers/App'
 import storeCreator from "./storeCreator";
+import * as css from './stylesheet.css';
 
 // Create Redux store with initial state
 const store = storeCreator();

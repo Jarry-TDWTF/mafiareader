@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 
 import GameSelector from '../components/GameSelector';
+import PostList from '../components/PostList';
 
 const mapStateToProps = (state) => state;
 
@@ -30,6 +31,7 @@ class App extends React.Component {
       games,
       currentGame
     } = this.props;
+    const maybeposts = currentGame.posts.length > 0 ? <PostList posts={currentGame.posts}/>: undefined;
     return (
       <div>
         <GameSelector
@@ -37,6 +39,7 @@ class App extends React.Component {
           options={games.data} onOptionSelected={this.onGameSelected.bind(this)}
           selectedValue={currentGame.id}
         />
+        {maybeposts}
       </div>
     )
   }
