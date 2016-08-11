@@ -1,11 +1,21 @@
 [
   {
-    "_id": "_design/games",
-    "_rev": "2-31f9cbcbd0704fd5d4024260e8b6c78e",
-    "language": "javascript",
-    "views": {
-      "games": {
-        "map": "function(doc) {\n  if(doc.type == 'GAME')\n\temit(doc._id, {name:doc._id, topics:doc.topics});\n}"
+    "id": "_design/games",
+    "key": "_design/games",
+    "value": {
+      "rev": "3-cbe3e9f3b8a667fb4499aa93a5da3d00"
+    },
+    "doc": {
+      "_id": "_design/games",
+      "_rev": "3-cbe3e9f3b8a667fb4499aa93a5da3d00",
+      "language": "javascript",
+      "views": {
+        "games": {
+          "map": "function(doc) {\n  if(doc.type == 'GAME')\n\temit(doc._id, {id:doc._id,name:doc.name, topics:doc.topics});\n}"
+        },
+        "posts": {
+          "map": "function(doc) {\n  if(doc.type == 'POST')\n    emit([doc.timestampISO, doc.tid], doc);\n}"
+        }
       }
     }
   }
