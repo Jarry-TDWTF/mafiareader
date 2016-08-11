@@ -3,18 +3,18 @@
     "id": "_design/games",
     "key": "_design/games",
     "value": {
-      "rev": "3-cbe3e9f3b8a667fb4499aa93a5da3d00"
+      "rev": "4-c85f28c9e6bbda8489fe76d8b8d5522d"
     },
     "doc": {
       "_id": "_design/games",
-      "_rev": "3-cbe3e9f3b8a667fb4499aa93a5da3d00",
+      "_rev": "4-c85f28c9e6bbda8489fe76d8b8d5522d",
       "language": "javascript",
       "views": {
         "games": {
           "map": "function(doc) {\n  if(doc.type == 'GAME')\n\temit(doc._id, {id:doc._id,name:doc.name, topics:doc.topics});\n}"
         },
         "posts": {
-          "map": "function(doc) {\n  if(doc.type == 'POST')\n    emit([doc.timestampISO, doc.tid], doc);\n}"
+          "map": "function(doc) {\n  if(doc.type == 'POST')\n    emit([doc.game, doc.timestampISO], doc);\n}"
         }
       }
     }

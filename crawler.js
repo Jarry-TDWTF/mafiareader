@@ -24,30 +24,28 @@ exports.init = function (conf) {
 
 exports.crawlGame = function (game) {
   return model.getGames([game]).then(res => {
-    console.log('crawling ', res[0].name)
-    return crawlTopics(game, res[0].topics);
+    console.log('crawling ', res[0].name);
+    return crawlTopics(res[0], res[0].topics);
   });
 };
 
 function crawlTopics(game, topics) {
-  for (let prom of topics.map((t) => crawlTopic(game, t))) {
-    prom.then(saveTopicPosts)
-  }
+  topics.map((t) => crawlTopic(game, t))
 }
 
 function crawlTopic(game, topic) {
   console.log('crawling topic: ', topic);
+
   return requestPage(topic, 1).then((body)=> {
-    console.log(typeof body);
     const pages = body.pagination.pageCount;
     console.log('topic has ', pages, 'pages');
-    model.saveTopic(topic, pages);
+    model.saveTopic(topic,body.title, pages).then(() => {console.log('topic saved')});
     let proms = [Promise.resolve(body)].concat(range(2, pages + 1).map((i)=> {
         return requestPage(topic, i);
       }));
 
     return Promise.all(proms.map((p)=> {
-      return p.then(parseTopicPage);
+      return p.then(parseTopicPage.bind(null, game.id));
     }));
   });
 }
@@ -67,9 +65,9 @@ function requestPage(topic, page) {
   });
 }
 
-function parseTopicPage(body) {
+function parseTopicPage(gameId, body) {
   return Promise.all(body.posts.map(
-    p => model.savePost(p)
+    p => model.savePost(p, gameId)
   ));
 }
 

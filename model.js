@@ -3,6 +3,22 @@ const nano = require('nano');
 const fs = require('fs');
 let db = undefined;
 
+function promesifyInsert(doc, id, newEdits) {
+  const new_edits = typeof newEdits !== "undefined"?newEdits:true;
+
+  return new Promise((resolve, reject) => {
+
+    db.insert(doc, {_id:id, new_edits:new_edits}, function (err, body) {
+      if (err) {
+        reject('[db.insert] ', err.message);
+        console.log(err.message);
+        return;
+      }
+      resolve(body);
+    });
+  }).catch(err => {console.log(err)});
+}
+
 exports.init = function (dburi) {
   db = nano(dburi);
 };
@@ -36,10 +52,12 @@ exports.getGames = function (keys) {
   })
 };
 
-exports.saveTopic = function (topic, pages) {
+
+exports.saveTopic = function (topic, title, pages) {
   const topicDoc = {
     _id: 'tid:' + topic,
     tid: topic,
+    title:title,
     type: 'TOPIC',
     pages: pages
   };
@@ -47,28 +65,29 @@ exports.saveTopic = function (topic, pages) {
   return promesifyInsert(topicDoc, topicDoc._id);
 };
 
-exports.savePost = function (post) {
+exports.savePost = function (post, gameId) {
   post._id = 'pid:' + post.pid;
   post.type = 'POST';
+  post.game = gameId;
   return promesifyInsert(post, post._id);
 };
 
-function promesifyInsert(doc, id, newEdits) {
-  const new_edits = typeof newEdits !== "undefined"?newEdits:true;
-
-  return new Promise((resolve, reject) => {
-
-    db.insert(doc, {_id:id, new_edits:new_edits}, function (err, body) {
-      if (err) {
-        reject('[db.insert] ', err.message);
-        console.log(err.message);
-        return;
+exports.getPosts = function (gameId) {
+  return new Promise((res, rej)=> {
+    let params = {
+      startkey: [gameId],
+      endkey:[gameId, {}]
+    };
+    db.view('games', 'posts', params, function (err, body) {
+      if (!err) {
+        res(body.rows.map((x)=>x.value));
       }
-      resolve(body);
+      else {
+        rej(err);
+      }
     });
   });
-}
-
+};
 
 exports.pullDocs = function () {
   const params = {

@@ -22,8 +22,6 @@ const callbacks = {
   shouldFetch: (state) => (!state.games.data || !state.games.data.length)
 };
 
-const posts = asyncFetch(fetchPostsActions, tp`games/${'gameId'}/posts`);
-
 export const setCurrentGame = (game) => ({
   type: SELECT_GAME,
   data: game
