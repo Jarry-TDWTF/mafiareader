@@ -18,7 +18,7 @@ class GameSelector extends React.Component {
       onOptionSelected,
       disabled
     } = this.props;
-    console.log(this.props);
+
     const maybeNullOption = nullOptionText ? (<option>{nullOptionText}</option>) : '';
     return (
       <select
