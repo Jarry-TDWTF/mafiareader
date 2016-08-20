@@ -4,10 +4,15 @@ import * as actions from '../actions';
 
 import GameSelector from '../components/GameSelector';
 import PostList from '../components/PostList';
+import Spinner from '../components/Spinner';
 
 const mapStateToProps = (state) => state;
 
 class App extends React.Component {
+  isFetching(state) {
+    return state.games.fetching || state.currentGame.fetching;
+  }
+
   componentWillMount() {
     const {
       fetchGames,
@@ -32,8 +37,10 @@ class App extends React.Component {
       currentGame
     } = this.props;
     const maybeposts = currentGame.posts.length > 0 ? <PostList posts={currentGame.posts} topics={currentGame.topics}/>: undefined;
+    const maybeSpinner = this.isFetching(this.props)?<Spinner/>:undefined;
     return (
       <div>
+        {maybeSpinner}
         <GameSelector
           keyText="name" keyValue="id"
           options={games.data} onOptionSelected={this.onGameSelected.bind(this)}
