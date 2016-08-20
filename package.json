@@ -6,6 +6,7 @@
   "scripts": {
     "start": "nodemon --ignore 'web/static/*' --ignore 'web/client/*' --exec babel-node -- web/server",
     "webpack": "webpack --progress --color --watch",
+    "build-prod": "NODE_ENV=production webpack --progress --display-modules -p --display-reasons",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
