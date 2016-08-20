@@ -38,6 +38,8 @@ const currentGameInitialState = {
 
 export function currentGame(state = currentGameInitialState, action) {
   switch (action.type) {
+    case RECEIVE_GAMES:
+      return {...state, id:action.data[0].id, name:action.data[0].name};
     case SELECT_GAME:
       return {...state, id:action.data.id, name:action.data.name};
     case REQUEST_POSTS:

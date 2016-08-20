@@ -39,7 +39,7 @@ function crawlTopic(game, topic) {
   return requestPage(topic, 1).then((body)=> {
     const pages = body.pagination.pageCount;
     console.log('topic has ', pages, 'pages');
-    model.saveTopic(topic,body.title, pages).then(() => {console.log('topic saved')});
+    model.saveTopic(topic,body.title, pages, game.id).then(() => {console.log('topic saved')});
     let proms = [Promise.resolve(body)].concat(range(2, pages + 1).map((i)=> {
         return requestPage(topic, i);
       }));

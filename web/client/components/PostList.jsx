@@ -13,7 +13,7 @@ class PostList extends React.Component {
       <Post post={p} key={p.pid}/>
     );
     return (
-      <div className="postList">
+      <div className="post-list">
         {postsNodes}
       </div>
     );

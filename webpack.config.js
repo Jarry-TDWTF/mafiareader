@@ -31,7 +31,7 @@ var config = {
       },
       { test: /\.css$/, loader: "style-loader!css-loader" },
       { test: /\.(png|svg)$/, loader: 'url-loader?limit=100000' },
-      { test: /\.jpg$/, loader: 'file-loader' }
+      { test: /\.jpg$/, loader: 'file-loader?name=[name].[ext]'}
     ]
   },
   devServer: {

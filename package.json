@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon --exec babel-node -- web/server",
+    "start": "nodemon --ignore 'web/static/*' --ignore 'web/client/*' --exec babel-node -- web/server",
     "webpack": "webpack --progress --color --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

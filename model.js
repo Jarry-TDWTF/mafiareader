@@ -4,11 +4,11 @@ const fs = require('fs');
 let db = undefined;
 
 function promesifyInsert(doc, id, newEdits) {
-  const new_edits = typeof newEdits !== "undefined"?newEdits:true;
+  const new_edits = typeof newEdits !== "undefined" ? newEdits : true;
 
   return new Promise((resolve, reject) => {
 
-    db.insert(doc, {_id:id, new_edits:new_edits}, function (err, body) {
+    db.insert(doc, {_id: id, new_edits: new_edits}, function (err, body) {
       if (err) {
         reject('[db.insert] ', err.message);
         console.log(err.message);
@@ -16,7 +16,9 @@ function promesifyInsert(doc, id, newEdits) {
       }
       resolve(body);
     });
-  }).catch(err => {console.log(err)});
+  }).catch(err => {
+    console.log(err)
+  });
 }
 
 exports.init = function (dburi) {
@@ -25,7 +27,7 @@ exports.init = function (dburi) {
 
 exports.saveGame = function (title, topics) {
   let game = {
-    _id:'g:'+title,
+    _id: 'g:' + title,
     name: title,
     type: 'GAME',
     topics
@@ -38,7 +40,7 @@ exports.getGames = function (keys) {
   return new Promise((res, rej)=> {
     let params = {};
     if (keys != undefined) {
-      params['keys'] = keys.map(k => 'g:'+k)
+      params['keys'] = keys.map(k => 'g:' + k)
     }
 
     db.view('games', 'games', function (err, body) {
@@ -53,13 +55,14 @@ exports.getGames = function (keys) {
 };
 
 
-exports.saveTopic = function (topic, title, pages) {
+exports.saveTopic = function (topic, title, pages, gid) {
   const topicDoc = {
     _id: 'tid:' + topic,
     tid: topic,
-    title:title,
+    title: title,
     type: 'TOPIC',
-    pages: pages
+    pages: pages,
+    gid: gid
   };
 
   return promesifyInsert(topicDoc, topicDoc._id);
@@ -76,7 +79,24 @@ exports.getPosts = function (gameId) {
   return new Promise((res, rej)=> {
     let params = {
       startkey: [gameId],
-      endkey:[gameId, {}]
+      endkey: [gameId, {}]
+    };
+    db.view('games', 'posts', params, function (err, body) {
+      if (!err) {
+        res(body.rows.map((x)=>x.value));
+      }
+      else {
+        rej(err);
+      }
+    });
+  });
+};
+
+exports.getPosts = function (gameId) {
+  return new Promise((res, rej)=> {
+    let params = {
+      startkey: [gameId],
+      endkey: [gameId, {}]
     };
     db.view('games', 'posts', params, function (err, body) {
       if (!err) {

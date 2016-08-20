@@ -18,10 +18,6 @@ function httpGetAsync(theUrl, callback)
   xmlHttp.send(null);
 }
 
-const callbacks = {
-  shouldFetch: (state) => (!state.games.data || !state.games.data.length)
-};
-
 export const setCurrentGame = (game) => ({
   type: SELECT_GAME,
   data: game
@@ -41,6 +37,7 @@ export const fetchGames = () => {
     dispatch(requestGames());
     httpGetAsync('games/',(data) => {
       dispatch(receiveGames(data));
+      dispatch(fetchPosts(data[0].id));
     });
   };
 };

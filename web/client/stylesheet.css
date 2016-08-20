@@ -1,15 +1,141 @@
-.emoji {
-    width: 20px;
-    height: 20px;
+body {
+    font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 15px;
+    line-height: 1.42857143;
+    margin: 0;
+    width: 100%;
 }
 
-.postlist {
-    width: 100%;
-    background-color: #4F4D3F;
-    margin: 10px;
+.emoji {
+    display: inline-block
+}
+
+.emoji[data-set-id="emoji-one"] {
+    height: 20px;
+    width: 20px;
+    margin: -1px 0
+}
+
+.emoji[data-set-id="tdwtf"] {
+    vertical-align: middle;
+    height: 20px;
+    width: auto
+}
+
+.emoji[data-set-id="tdwtf"][data-emoji-id="eek"] {
+    height: 30px
+}
+
+.emoji[data-set-id="tdwtf"][data-emoji-id="rofl"] {
+    height: 15px
+}
+
+.emoji[data-set-id="tdwtf"][data-emoji-id="spittake"] {
+    height: 25px
+}
+
+.emoji[data-set-id="tdwtf"][data-emoji-id="hide"] {
+    height: 25px
+}
+
+.emoji[data-set-id="tdwtf"][data-emoji-id="popcorn"] {
+    height: 35px
+}
+
+.emoji[data-set-id="tdwtf"][data-emoji-id="vomit"] {
+    height: 16px
+}
+
+.iframely-link .thumb {
+    max-width: 21px !important;
+    margin-right: 5px
+}
+
+.iframely-link .iframely-container {
+    margin-top: 15px;
+    max-width: 600px
+}
+
+.iframely-link .iframely-container img, .iframely-link .iframely-container iframe {
+    max-width: 100% !important
+}
+
+.iframely-link .iframely-container .panel-iframely .iframely-embed .one-line {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
+    width: 100%
+}
+
+.iframely-link .iframely-container .panel-iframely .iframely-embed .iframely-meta {
+    margin-bottom: 10px
+}
+
+.iframely-link .iframely-container .panel-iframely .iframely-embed .media iframe, .iframely-link .iframely-container .panel-iframely .iframely-embed .media img {
+    max-width: 100%
+}
+
+.iframely-link .iframely-container .panel-iframely .iframely-embed p.description {
+    margin: 10px 0 0 0
+}
+
+.post-list {
+    background-color: #d7d7d7;
+    margin: 15px 5%;
+    width: 90%;
 }
 
 .post {
-    border: solid 1px #0066bb;
-    margin: 5px 0px;
+    border: solid 1px #757575;
+    background-color: #cccccc;
+    padding: 10px;
+    margin: 5px 0;
+}
+
+.post .icon img {
+    margin-right: 15px;
+    width: 46px;
+    height: 46px;
+    line-height: 46px;
+    font-size: 2.4rem;
+}
+
+.post .post-content {
+    margin-left: 70px;
+}
+
+.post .post-header {
+    width: 100%;
+}
+/* Abarker's mention style */
+a.plugin-mentions-a {
+    text-decoration: none;
+    background-color: #dfdfdf;
+    padding: 0.1em 0.4em;
+    border-radius: 0.5em;
+    font-weight: bold;
+}
+
+/* Erufael's blockquotes */
+/* Add border around blockquote text */
+blockquote {
+    border: 2px solid #4e5d6c;
+    border-left: 4px solid #4e5d6c;
+    margin: 0 15px;
+    padding: 0 5px;
+}
+
+/* Make text size in block quotes larger and italicized */
+blockquote p:last-child {
+    font-size: 14px;
+    font-style: italic;
+}
+
+.pull-right {
+    float: right;
+}
+
+.pull-left {
+    float: left;
 }
