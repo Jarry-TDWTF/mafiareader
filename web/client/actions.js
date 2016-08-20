@@ -2,8 +2,8 @@ export const REQUEST_GAMES = 'REQUEST_GAMES';
 export const RECEIVE_GAMES = 'RECEIVE_GAMES';
 
 export const SELECT_GAME = 'SELECT_GAME';
-export const REQUEST_POSTS = 'REQUEST_POSTS';
-export const RECEIVE_POSTS = 'RECEIVE_POSTS';
+export const REQUEST_GAME_INFO = 'REQUEST_GAME_INFO';
+export const RECEIVE_GAME_INFO = 'RECEIVE_GAME_INFO';
 
 function httpGetAsync(theUrl, callback)
 {
@@ -37,25 +37,25 @@ export const fetchGames = () => {
     dispatch(requestGames());
     httpGetAsync('games/',(data) => {
       dispatch(receiveGames(data));
-      dispatch(fetchPosts(data[0].id));
+      dispatch(fetchGameInfo(data[0].id));
     });
   };
 };
 
 export const requestPosts = () => ({
-  type: REQUEST_POSTS
+  type: REQUEST_GAME_INFO
 });
 
-export const receivePosts = (data) => ({
-  type: RECEIVE_POSTS,
+export const receiveGameInfo = (data) => ({
+  type: RECEIVE_GAME_INFO,
   data
 });
 
-export const fetchPosts = (gameId) => {
+export const fetchGameInfo = (gameId) => {
   return (dispatch, getState) => {
     dispatch(requestPosts());
-    httpGetAsync(`games/${gameId}/posts`,(data) => {
-      dispatch(receivePosts(data));
+    httpGetAsync(`games/${gameId}`,(data) => {
+      dispatch(receiveGameInfo(data));
     });
   };
 };

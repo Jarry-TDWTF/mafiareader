@@ -2,8 +2,8 @@ import {
   RECEIVE_GAMES,
   REQUEST_GAMES,
   SELECT_GAME,
-  REQUEST_POSTS,
-  RECEIVE_POSTS
+  REQUEST_GAME_INFO,
+  RECEIVE_GAME_INFO
 } from './actions';
 
 const gamesInitialState = {
@@ -33,7 +33,8 @@ const currentGameInitialState = {
   ready: false,
   id: undefined,
   name: "",
-  posts: []
+  posts: [],
+  topics: {}
 };
 
 export function currentGame(state = currentGameInitialState, action) {
@@ -42,13 +43,14 @@ export function currentGame(state = currentGameInitialState, action) {
       return {...state, id:action.data[0].id, name:action.data[0].name};
     case SELECT_GAME:
       return {...state, id:action.data.id, name:action.data.name};
-    case REQUEST_POSTS:
+    case REQUEST_GAME_INFO:
       return {...state, fetching:true, ready: false};
-    case RECEIVE_POSTS:
+    case RECEIVE_GAME_INFO:
       return { ...state,
         fetching: false,
         ready: true,
-        posts: action.data
+        posts: action.data.posts,
+        topics: action.data.topics
       };
     default:
       return state;
