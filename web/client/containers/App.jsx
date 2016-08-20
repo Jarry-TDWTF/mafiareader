@@ -31,7 +31,7 @@ class App extends React.Component {
       games,
       currentGame
     } = this.props;
-    const maybeposts = currentGame.posts.length > 0 ? <PostList posts={currentGame.posts}/>: undefined;
+    const maybeposts = currentGame.posts.length > 0 ? <PostList posts={currentGame.posts} topics={currentGame.topics}/>: undefined;
     return (
       <div>
         <GameSelector

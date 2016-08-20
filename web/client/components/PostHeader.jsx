@@ -23,6 +23,7 @@ class PostHeader extends React.Component {
             <strong><a href={''}>{user.username}</a></strong> on <a className="permalink" href={getAbsoluteUrl('/post/'+ pid)} target="_blank">{timestampISO}</a> said:
           </div>
         </small>
+        <small className="pull-right">{this.props.topicName}</small>
       </div>);
   }
 }
