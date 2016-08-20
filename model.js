@@ -92,13 +92,12 @@ exports.getPosts = function (gameId) {
   });
 };
 
-exports.getPosts = function (gameId) {
+exports.getTopics = function (gameId) {
   return new Promise((res, rej)=> {
     let params = {
-      startkey: [gameId],
-      endkey: [gameId, {}]
+      keys:[gameId]
     };
-    db.view('games', 'posts', params, function (err, body) {
+    db.view('games', 'threads', params, function (err, body) {
       if (!err) {
         res(body.rows.map((x)=>x.value));
       }
