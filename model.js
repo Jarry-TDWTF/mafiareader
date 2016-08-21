@@ -42,8 +42,7 @@ exports.getGames = function (keys) {
     if (keys != undefined) {
       params['keys'] = keys.map(k => 'g:' + k)
     }
-
-    db.view('games', 'games', function (err, body) {
+    db.view('games', 'games', params, function (err, body) {
       if (!err) {
         res(body.rows.map((x)=>x.value))
       }
