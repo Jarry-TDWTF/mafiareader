@@ -101,6 +101,9 @@ body {
     font-size: 2.4rem;
 }
 
+.post img {
+    max-width: 100%;
+}
 .post .post-content {
     margin-left: 70px;
 }
