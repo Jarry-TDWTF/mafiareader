@@ -23,11 +23,11 @@ class App extends React.Component {
   onGameSelected(game) {
     const {
       setCurrentGame,
-      fetchPosts
+      fetchGameInfo
     } = this.props;
     setCurrentGame(game);
     if(game) {
-      fetchPosts(game.id);
+      fetchGameInfo(game.id);
     }
   }
 
