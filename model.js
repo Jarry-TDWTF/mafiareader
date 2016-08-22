@@ -71,6 +71,7 @@ exports.savePost = function (post, gameId) {
   post._id = 'pid:' + post.pid;
   post.type = 'POST';
   post.game = gameId;
+  delete post._imported_pid; //TODO improve this to not be harcoded
   return promesifyInsert(post, post._id);
 };
 
