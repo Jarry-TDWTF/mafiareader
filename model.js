@@ -71,7 +71,12 @@ exports.savePost = function (post, gameId) {
   post._id = 'pid:' + post.pid;
   post.type = 'POST';
   post.game = gameId;
-  delete post._imported_pid; //TODO improve this to not be harcoded
+  for(let key in post) {
+    if(key.startsWith('_')){
+      delete post[key];
+    }
+  }
+
   return promesifyInsert(post, post._id);
 };
 
