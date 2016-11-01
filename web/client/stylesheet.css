@@ -1,5 +1,5 @@
 body {
-    font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 15px;
     line-height: 1.42857143;
     margin: 0;
@@ -81,16 +81,21 @@ body {
 }
 
 .post-list {
-    background-color: #d7d7d7;
-    margin: 15px 5%;
-    width: 90%;
+    width: 80%;
+    margin: 20px 10%;
+    background-color: white
 }
 
 .post {
-    border: solid 1px #757575;
     background-color: #cccccc;
     padding: 10px;
     margin: 5px 0;
+    border-radius:10px;
+    border: 0px hidden;
+    width:60%;
+    position:relative;
+    left:23%;
+    overflow: hidden;
 }
 
 .post .icon img {
@@ -104,6 +109,7 @@ body {
 .post img {
     max-width: 100%;
 }
+
 .post .post-content {
     margin-left: 70px;
 }
@@ -111,28 +117,36 @@ body {
 .post .post-header {
     width: 100%;
 }
-/* Abarker's mention style */
+
 a.plugin-mentions-a {
-    text-decoration: none;
-    background-color: #dfdfdf;
     padding: 0.1em 0.4em;
     border-radius: 0.5em;
-    font-weight: bold;
+    background: rgb(0, 0, 0);
+    background: rgba(0, 0, 0, 0.15);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";
 }
 
-/* Erufael's blockquotes */
-/* Add border around blockquote text */
+a.plugin-mentions-a:empty {
+    display: none
+}
+
 blockquote {
-    border: 2px solid #4e5d6c;
-    border-left: 4px solid #4e5d6c;
-    margin: 0 15px;
-    padding: 0 5px;
+    display: inline-block;
+    border: 0px hidden #4e5d6c;
+    position: relative;
+    margin: 0px;
+    padding: 0px;
 }
 
-/* Make text size in block quotes larger and italicized */
-blockquote p:last-child {
-    font-size: 14px;
-    font-style: italic;
+blockquote > p:last-child {
+    position: relative;
+    bottom: 1%;
+    font-style: normal;
+    line-height: 1;
+    border-left: 2px solid #4e5d6c;
+    margin: 1px 25px;
+    padding: 3px 15px;
 }
 
 .pull-right {
@@ -142,6 +156,7 @@ blockquote p:last-child {
 .pull-left {
     float: left;
 }
+
 /*
  spinner from http://tobiasahlin.com/spinkit/
 */
@@ -173,16 +188,52 @@ blockquote p:last-child {
 }
 
 @-webkit-keyframes sk-bounce {
-    0%, 100% { -webkit-transform: scale(0.0) }
-    50% { -webkit-transform: scale(1.0) }
+    0%, 100% {
+        -webkit-transform: scale(0.0)
+    }
+    50% {
+        -webkit-transform: scale(1.0)
+    }
 }
 
 @keyframes sk-bounce {
     0%, 100% {
         transform: scale(0.0);
         -webkit-transform: scale(0.0);
-    } 50% {
-          transform: scale(1.0);
-          -webkit-transform: scale(1.0);
-      }
+    }
+    50% {
+        transform: scale(1.0);
+        -webkit-transform: scale(1.0);
+    }
+}
+
+/* @fox css */
+.topic-title {
+    font-weight: bold;
+    font-size: 15px;
+}
+
+p + blockquote {
+    top: -10px;
+}
+
+select {
+    position: relative;
+    left: 50%;
+    font-size: 20px;
+    margin: 20px
+}
+
+[style="background-color: rgb(255, 242, 174);"] {
+    left: 1%
+}
+
+[style="background-color: rgb(244, 202, 228);"] {
+    left: 45%
+}
+
+
+
+tr > td > img {
+    border: 1px solid black
 }

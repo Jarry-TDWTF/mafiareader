@@ -13,5 +13,7 @@ function isAbsoluteUrl(url) {
 
 export const getThreadColor = function(tid) {
   const colors = ["#b3e2cd", "#fdcdac", "#cbd5e8", "#f4cae4", "#e6f5c9", "#fff2ae", "#f1e2cc", "#cccccc"];
-  return colors[tid & 0b111];
+  return colors[getThreadNormalizedNumber(tid)];
 };
+
+export const getThreadNormalizedNumber = (tid) => tid & 0b111;

@@ -1,5 +1,5 @@
 import React from "react";
-import { getThreadColor } from '../utils';
+import { getThreadColor, getThreadNormalizedNumber } from '../utils';
 import PostHeader from "./PostHeader"
 
 class Post extends React.Component {
@@ -10,7 +10,7 @@ class Post extends React.Component {
     } = this.props;
 
     return (
-      <div className="post" style={{backgroundColor:getThreadColor(post.tid)}}>
+      <div className="post thread" style={{backgroundColor:getThreadColor(post.tid)}} data-thread={getThreadNormalizedNumber(post.tid)}>
         <PostHeader post={post} topicName={topicName}/>
         <div className="post-content" dangerouslySetInnerHTML={{__html:post.content}}></div>
       </div>
